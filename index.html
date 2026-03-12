@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TÍNH MỰC BỒN DẦU</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#dcdcdc;
+padding:30px;
+}
+
+h1{
+font-size:32px;
+margin-bottom:30px;
+}
+
+.main{
+display:flex;
+gap:60px;
+align-items:flex-start;
+}
+
+.left-section{
+display:flex;
+flex-direction:column;
+}
+
+table{
+border-collapse:collapse;
+background:#eaeaea;
+}
+
+th,td{
+border:1px solid #bfbfbf;
+padding:10px 15px;
+text-align:center;
+}
+
+input{
+width:120px;
+padding:6px;
+font-size:16px;
+}
+
+.panel{
+background:#eaeaea;
+padding:20px;
+border:1px solid #bfbfbf;
+min-width:280px;
+}
+
+.right-panel{
+min-width:220px;
+}
+
+button{
+padding:10px 35px;
+font-size:20px;
+margin-top:15px;
+}
+
+.result{
+font-size:22px;
+color:red;
+margin-top:15px;
+line-height:1.5;
+}
+
+.time-block{
+margin-top:15px;
+}
+
+.time-panel{
+background:#eaeaea;
+border:1px solid #bfbfbf;
+padding:20px;
+width:520px;
+margin-top:30px;
+}
+
+.credit{
+margin-top:10px;
+font-size:14px;
+color:#555;
+}
+
+.time-row{
+white-space:nowrap;
+}
+
+.small{
+width:60px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>TÍNH MỰC BỒN DẦU</h1>
+
+<div class="main">
+
+<div class="left-section">
+
+<table>
+
+<tr>
+<th>Bồn</th>
+<th>Mực (mm)</th>
+</tr>
+
+<tr>
+<td>Bồn 1</td>
+<td><input id="b1" value="3804"></td>
+</tr>
+
+<tr>
+<td>Bồn 2</td>
+<td><input id="b2" value="7724"></td>
+</tr>
+
+<tr>
+<td>Bồn 3</td>
+<td><input id="b3" value="3965"></td>
+</tr>
+
+<tr>
+<td>Bồn 4</td>
+<td><input id="b4" value="5980"></td>
+</tr>
+
+</table>
+
+<div class="time-block">
+
+Thời gian chạy (giờ)
+
+<input id="hours" value="">
+
+<br><br>
+
+<button onclick="tinh()">TÍNH</button>
+
+<div class="result" id="kq"></div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h3>Thông tin bồn dầu</h3>
+
+<br>
+
+Bồn 1 : 117 lít/mm ; 1 máy 1h 1 tấc<br><br>
+Bồn 2 : 233 lít/mm ; 2 máy 1h 1 tấc<br><br>
+Bồn 3 : 117 lít/mm ; 1 máy 1h 1 tấc<br><br>
+Bồn 4 : 346 lít/mm ; 3 máy 1h 1 tấc
+
+</div>
+
+<div class="right-panel">
+
+<h3>Bồn đang tiêu thụ</h3>
+
+<select id="tank">
+
+<option value="1">Bồn 1</option>
+<option value="2">Bồn 2</option>
+<option value="3">Bồn 3</option>
+<option value="4">Bồn 4</option>
+
+</select>
+
+<br><br>
+
+<h3>Tổ máy đang chạy</h3>
+
+<label><input type="checkbox" id="gt3"> GT3</label><br><br>
+<label><input type="checkbox" id="gt4"> GT4</label><br><br>
+<label><input type="checkbox" id="gt5"> GT5</label><br><br>
+<label><input type="checkbox" id="gt6"> GT6</label><br><br>
+<label><input type="checkbox" id="gt7"> GT7</label><br><br>
+<label><input type="checkbox" id="gt8"> GT8</label>
+
+</div>
+
+</div>
+
+
+<div class="time-panel">
+
+<h3>Thời gian</h3>
+
+<br>
+
+<div class="time-row">
+
+Thời gian bắt đầu chạy:
+
+Giờ <input id="startHour" class="small">
+
+Phút <input id="startMinute" class="small">
+
+Ngày <input id="startDay" class="small">
+
+</div>
+
+<br>
+
+Thời gian sau <span id="hoursText">x</span> giờ chạy:
+
+Giờ <span id="endHour">--</span>
+
+Phút <span id="endMinute">--</span>
+
+Ngày <span id="endDay">--</span>
+
+</div>
+
+<div class="credit">
+Design by Ha Long_12/3/2026
+</div>
+
+
+<script>
+
+function val(id){
+return Number(document.getElementById(id).value)||0
+}
+
+function countMachines(){
+
+let c=0
+
+for(let i=3;i<=8;i++){
+
+if(document.getElementById("gt"+i).checked){
+c++
+}
+
+}
+
+return c
+}
+
+function tinh(){
+
+let machines = countMachines()
+
+let hours = val("hours")
+
+document.getElementById("hoursText").innerText = hours
+
+let tank = document.getElementById("tank").value
+
+let currentMM = val("b"+tank)
+
+let rule = {
+
+1:1,
+2:2,
+3:1,
+4:3
+
+}
+
+let machinePerTac = rule[tank]
+
+let mmDrop = (machines / machinePerTac) * hours * 10
+
+let remain = currentMM - mmDrop
+
+document.getElementById("kq").innerHTML =
+"Số máy chạy: "+machines+"<br>"+
+"Mực giảm: "+mmDrop.toFixed(1)+" mm<br>"+
+"Mực còn lại: "+remain.toFixed(1)+" mm"
+
+
+let sh = val("startHour")
+let sm = val("startMinute")
+let sd = val("startDay")
+
+let totalMinutes = sh*60 + sm + hours*60
+
+let daysAdd = Math.floor(totalMinutes / 1440)
+
+let remainMinutes = totalMinutes % 1440
+
+let eh = Math.floor(remainMinutes / 60)
+let em = Math.round(remainMinutes % 60)
+
+let ed = sd + daysAdd
+
+document.getElementById("endHour").innerText = eh
+document.getElementById("endMinute").innerText = em
+document.getElementById("endDay").innerText = ed
+
+}
+
+</script>
+
+</body>
+</html>
