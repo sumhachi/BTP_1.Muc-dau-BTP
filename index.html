@@ -9,23 +9,25 @@
 body{
 font-family: Arial;
 background:#dcdcdc;
-padding:30px;
+padding:15px;
+margin:0;
 }
 
 h1{
-font-size:32px;
-margin-bottom:30px;
+font-size:26px;
+margin-bottom:15px;
 }
 
 .main{
 display:flex;
-gap:60px;
+gap:30px;
 align-items:flex-start;
 }
 
 .left-section{
 display:flex;
 flex-direction:column;
+gap:10px;
 }
 
 table{
@@ -35,64 +37,56 @@ background:#eaeaea;
 
 th,td{
 border:1px solid #bfbfbf;
-padding:10px 15px;
+padding:8px 12px;
 text-align:center;
 }
 
 input{
-width:120px;
-padding:6px;
-font-size:16px;
+width:90px;
+padding:5px;
+font-size:14px;
 }
 
 .panel{
 background:#eaeaea;
-padding:20px;
+padding:12px;
 border:1px solid #bfbfbf;
-min-width:280px;
+min-width:240px;
 }
 
 .right-panel{
-min-width:220px;
+min-width:180px;
 }
 
 button{
-padding:10px 35px;
-font-size:20px;
-margin-top:15px;
+padding:8px 20px;
+font-size:16px;
+margin-top:8px;
 }
 
 .result{
-font-size:22px;
+font-size:18px;
 color:red;
-margin-top:15px;
-line-height:1.5;
-}
-
-.time-block{
-margin-top:15px;
+margin-top:8px;
+line-height:1.4;
 }
 
 .time-panel{
 background:#eaeaea;
 border:1px solid #bfbfbf;
-padding:20px;
-width:520px;
-margin-top:30px;
+padding:12px;
+width:100%;
+margin-top:5px; /* sát luôn */
 }
 
 .credit{
-margin-top:10px;
-font-size:14px;
+margin-top:8px;
+font-size:12px;
 color:#555;
 }
 
-.time-row{
-white-space:nowrap;
-}
-
 .small{
-width:60px;
+width:50px;
 }
 
 </style>
@@ -105,129 +99,102 @@ width:60px;
 
 <div class="main">
 
+<!-- ===== CỘT TRÁI ===== -->
 <div class="left-section">
 
 <table>
-
-<tr>
-<th>Bồn</th>
-<th>Mực (mm)</th>
-</tr>
-
-<tr>
-<td>Bồn 1</td>
-<td><input id="b1" value="3804"></td>
-</tr>
-
-<tr>
-<td>Bồn 2</td>
-<td><input id="b2" value="7724"></td>
-</tr>
-
-<tr>
-<td>Bồn 3</td>
-<td><input id="b3" value="3965"></td>
-</tr>
-
-<tr>
-<td>Bồn 4</td>
-<td><input id="b4" value="5980"></td>
-</tr>
-
+<tr><th>Bồn</th><th>Mực (mm)</th></tr>
+<tr><td>Bồn 1</td><td><input id="b1" value="3804"></td></tr>
+<tr><td>Bồn 2</td><td><input id="b2" value="7724"></td></tr>
+<tr><td>Bồn 3</td><td><input id="b3" value="3965"></td></tr>
+<tr><td>Bồn 4</td><td><input id="b4" value="5980"></td></tr>
 </table>
 
-<div class="time-block">
-
+<div>
 Thời gian chạy (giờ)
+<input id="hours">
+<br>
+<button onclick="tinh()">TÍNH</button>
+<div class="result" id="kq"></div>
+</div>
 
-<input id="hours" value="">
+<!-- ✅ ĐƯA THỜI GIAN LÊN ĐÂY -->
+<div class="time-panel">
+
+<h3>Thời gian</h3>
+
+Thời gian bắt đầu chạy:
+Giờ <input id="startHour" class="small">
+Phút <input id="startMinute" class="small">
+Ngày <input id="startDay" class="small">
 
 <br><br>
 
-<button onclick="tinh()">TÍNH</button>
-
-<div class="result" id="kq"></div>
+Sau <span id="hoursText">x</span> giờ:
+Giờ <span id="endHour">--</span>
+Phút <span id="endMinute">--</span>
+Ngày <span id="endDay">--</span>
 
 </div>
 
 </div>
 
+<!-- ===== CỘT GIỮA ===== -->
 <div class="panel">
-
 <h3>Thông tin bồn dầu</h3>
-
-<br>
-
 Bồn 1 : 117 lít/mm ; 1 máy 1h 1 tấc<br><br>
 Bồn 2 : 233 lít/mm ; 2 máy 1h 1 tấc<br><br>
 Bồn 3 : 117 lít/mm ; 1 máy 1h 1 tấc<br><br>
 Bồn 4 : 346 lít/mm ; 3 máy 1h 1 tấc
-
 </div>
 
+<!-- ===== CỘT PHẢI ===== -->
 <div class="right-panel">
 
 <h3>Bồn đang tiêu thụ</h3>
-
 <select id="tank">
-
 <option value="1">Bồn 1</option>
 <option value="2">Bồn 2</option>
 <option value="3">Bồn 3</option>
 <option value="4">Bồn 4</option>
-
 </select>
 
 <br><br>
 
 <h3>Tổ máy đang chạy</h3>
-
-<label><input type="checkbox" id="gt3"> GT3</label><br><br>
-<label><input type="checkbox" id="gt4"> GT4</label><br><br>
-<label><input type="checkbox" id="gt5"> GT5</label><br><br>
-<label><input type="checkbox" id="gt6"> GT6</label><br><br>
-<label><input type="checkbox" id="gt7"> GT7</label><br><br>
+<label><input type="checkbox" id="gt3"> GT3</label><br>
+<label><input type="checkbox" id="gt4"> GT4</label><br>
+<label><input type="checkbox" id="gt5"> GT5</label><br>
+<label><input type="checkbox" id="gt6"> GT6</label><br>
+<label><input type="checkbox" id="gt7"> GT7</label><br>
 <label><input type="checkbox" id="gt8"> GT8</label>
 
-</div>
+<div class="panel" style="margin-top:10px;">
+<h3>Tổng hợp</h3>
+
+Mực lót đáy (mm):<br><br>
+
+B1: <input id="lot1" class="small">
+B2: <input id="lot2" class="small"><br><br>
+
+B3: <input id="lot3" class="small">
+B4: <input id="lot4" class="small"><br><br>
+
+Số máy:
+<span id="soMay">--</span><br><br>
+
+Thời gian vận hành:
+<div id="tgVanHanh">--</div>
 
 </div>
 
-
-<div class="time-panel">
-
-<h3>Thời gian</h3>
-
-<br>
-
-<div class="time-row">
-
-Thời gian bắt đầu chạy:
-
-Giờ <input id="startHour" class="small">
-
-Phút <input id="startMinute" class="small">
-
-Ngày <input id="startDay" class="small">
-
 </div>
-
-<br>
-
-Thời gian sau <span id="hoursText">x</span> giờ chạy:
-
-Giờ <span id="endHour">--</span>
-
-Phút <span id="endMinute">--</span>
-
-Ngày <span id="endDay">--</span>
 
 </div>
 
 <div class="credit">
-Design by Ha Long_12/3/2026
+Design by Ha Long 0902.316.913_Update 24/3/2026
 </div>
-
 
 <script>
 
@@ -236,45 +203,27 @@ return Number(document.getElementById(id).value)||0
 }
 
 function countMachines(){
-
 let c=0
-
 for(let i=3;i<=8;i++){
-
-if(document.getElementById("gt"+i).checked){
-c++
+if(document.getElementById("gt"+i).checked){ c++ }
 }
-
-}
-
 return c
 }
 
 function tinh(){
 
 let machines = countMachines()
-
 let hours = val("hours")
 
 document.getElementById("hoursText").innerText = hours
 
 let tank = document.getElementById("tank").value
-
 let currentMM = val("b"+tank)
 
-let rule = {
-
-1:1,
-2:2,
-3:1,
-4:3
-
-}
-
+let rule = {1:1,2:2,3:1,4:3}
 let machinePerTac = rule[tank]
 
 let mmDrop = (machines / machinePerTac) * hours * 100
-
 let remain = currentMM - mmDrop
 
 document.getElementById("kq").innerHTML =
@@ -282,7 +231,37 @@ document.getElementById("kq").innerHTML =
 "Mực giảm: "+mmDrop.toFixed(1)+" mm<br>"+
 "Mực còn lại: "+remain.toFixed(1)+" mm"
 
+document.getElementById("soMay").innerText = machines
 
+// ===== TÍNH 4 BỒN =====
+let totalHours = 0
+let text = ""
+
+for(let i=1;i<=4;i++){
+
+let current = val("b"+i)
+let lot = val("lot"+i)
+
+let mmPerHour = (machines / rule[i]) * 100
+
+let h = 0
+
+if(mmPerHour > 0){
+let usable = current - lot
+if(usable > 0){
+h = usable / mmPerHour
+totalHours += h
+}
+}
+
+text += "Bồn "+i+": "+h.toFixed(2)+" giờ<br>"
+}
+
+text += "<br><b>Tổng: "+totalHours.toFixed(2)+" giờ</b>"
+
+document.getElementById("tgVanHanh").innerHTML = text
+
+// ===== TÍNH GIỜ =====
 let sh = val("startHour")
 let sm = val("startMinute")
 let sd = val("startDay")
@@ -290,7 +269,6 @@ let sd = val("startDay")
 let totalMinutes = sh*60 + sm + hours*60
 
 let daysAdd = Math.floor(totalMinutes / 1440)
-
 let remainMinutes = totalMinutes % 1440
 
 let eh = Math.floor(remainMinutes / 60)
